@@ -1,0 +1,14 @@
+{
+  "name": "rfidattendance",
+  "version": "1.0.0",
+  "description": "This is a project on rfid based smart attendace system",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "manubg",
+  "license": "ISC",
+  "dependencies": {
+    "bootstrap": "^5.3.0-alpha3"
+  }
+}

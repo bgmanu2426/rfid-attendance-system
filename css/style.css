@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Ubuntu-Medium';
+    font-style: normal;
+    font-weight: 400;
+    src: local('Ubuntu-Medium'), local('Ubuntu-Medium'), url('../fonts/Ubuntu-Medium.ttf') format('truetype');
+}
+
+*{
+    font-family: 'Ubuntu-Medium', cursive;
+}

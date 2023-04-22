@@ -1,0 +1,17 @@
+{
+    "name": "bath-3/smart-attendance",
+    "description": "This is a IIoT project to make rfid based smart attendace system using esp32",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Bath3\\SmartAttendance\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Manubg",
+            "email": "bgmanu2426@gmail.com"
+        }
+    ],
+    "require": {}
+}
