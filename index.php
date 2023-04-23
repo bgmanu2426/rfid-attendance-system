@@ -31,7 +31,7 @@ require "./db/db_connect.php";
     <?php require "./apps/footer.php"; ?>
     <script>
         // To add active class to the navbar
-        const addClassActive = document.getElementById('add-users-tab');
+        const addClassActive = document.getElementById('home-tab');
         addClassActive.classList.add('active');
     </script>
 

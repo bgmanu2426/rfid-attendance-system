@@ -8,6 +8,10 @@ if ($_SESSION['admin'] == false) {
 // Connect to the database
 require "./db/db_connect.php";
 
+// Flages to show confirmation message on CRUD operations perfomed 
+$update = false;
+$delete = false;
+
 if (isset($_GET['delete'])) {
     // operations perfomed using the GET method to delete the note in databse
     $slno = $_GET['delete'];
@@ -53,6 +57,12 @@ if (isset($_GET['delete'])) {
         table.dataTable th,
         table.dataTable td {
             text-align: center;
+        }
+
+        .alert {
+            position: absolute;
+            left: 470px;
+            top: 67px;
         }
     </style>
 
@@ -111,15 +121,25 @@ if (isset($_GET['delete'])) {
 <body>
     <!-- Navigation bar -->
     <?php require "./apps/navbar.php"; ?>
-    <!-- Edit Modal -->
-    <?php require "./apps/editModal.php"; ?>
-    <!-- Delete Modal -->
-    <?php require "./apps/deleteModal.php"; ?>
+
+    <!-- Edit & Delete Modal and its Alert -->
+    <!-- You can also wrap it in a div of certain height to make seperate space for the alert -->
+    <?php
+    require "./apps/editModal.php";
+    require "./apps/deleteModal.php";
+    if ($update) {
+        echo '<div class="alert alert-success fade show" role="alert"><strong>Updated!</strong> Student details has been updated successfully</div>';
+    } elseif ($delete) {
+        echo '<div class="alert alert-danger fade show" role="alert"><strong>Deleted!</strong> Student details has been deleted successfully</div>';
+    }
+    ?>
 
     <h1 class="py-3 bg-warning">
         <center>**Title goes here**</center>
     </h1>
-    <div class="table-responsive" style="min-height: 66.5vh;">
+
+
+    <div class="table-responsive" style="min-height: 75vh;">
         <table id="example" class="display">
             <thead>
                 <tr>
@@ -211,6 +231,13 @@ if (isset($_GET['delete'])) {
     // To add active class to the navbar
     const addClassActive = document.getElementById('manage-users-tab');
     addClassActive.classList.add('active');
+
+    // To make the alert auto dismissable
+    $(document).ready(function() {
+        $(".alert").fadeTo(2500, 400).slideUp(400, function() {
+            $(this).alert('close');
+        })
+    })
 </script>
 
 </html>

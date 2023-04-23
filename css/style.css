@@ -5,6 +5,6 @@
     src: local('Ubuntu-Medium'), local('Ubuntu-Medium'), url('../fonts/Ubuntu-Medium.ttf') format('truetype');
 }
 
-*{
+* {
     font-family: 'Ubuntu-Medium', cursive;
 }

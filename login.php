@@ -6,6 +6,8 @@ if (isset($_SESSION['userNumber'])) {
     exit();
 }
 
+$showError = false;
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     //Connecting to the databse
     require "./db/db_connect.php";
@@ -27,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['admin'] = true;
             header("location: logs.php");
         } else {
-            echo 'error';
+            $showError = true;
         }
     } else {
         //Check the email and password entered by user is correct or not
@@ -42,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['admin'] = false;
             header("location: logs.php");
         } else {
-            echo 'error';
+            $showError = true;
         }
     }
 }
@@ -59,12 +61,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!-- Bootstrap JS -->
     <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery JS -->
+    <script src="./js/jquery-3.5.1.js"></script>
     <title>Login</title>
 </head>
 
 <body>
     <!-- Navbar included -->
     <?php include './apps/navbar.php'; ?>
+
+    <!-- Alerts -->
+    <?php
+    if ($showError) {
+        echo '<div class="alert alert-danger fade show" style="position: absolute; left: 560px; top: 80px;" role="alert"><strong>Error!</strong> Invalid Credentials</div>';
+    }
+    ?>
 
     <!-- Login form -->
     <div class="container col-md-6 my-5" style="min-height: 66.5vh;">
@@ -100,6 +111,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if (window.history.replaceState) {
             window.history.replaceState(null, null, window.location.href);
         }
+
+        // To make the alert auto dismissable
+        $(document).ready(function() {
+            $(".alert").fadeTo(2500, 400).slideUp(400, function() {
+                $(this).alert('close');
+            })
+        })
     </script>
 </body>
 
