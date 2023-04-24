@@ -46,7 +46,7 @@ if (!$loggedin) {
 echo ' </ul>';
 if ($loggedin) {
     echo '
-            <button class="btn btn-danger mx-3"><a href="./apps/logout.php" style="text-decoration: none; color:white;">Logout</a></button>';
+            <button class="btn btn-danger"><a href="./apps/logout.php" style="text-decoration: none; color:white;">Logout</a></button>';
 }
 echo '</div>
     </div>

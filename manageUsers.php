@@ -162,9 +162,9 @@ if (isset($_GET['delete'])) {
     }
     ?>
 
-    <h1 class="py-3 bg-warning">
+    <h3 class="py-3 bg-warning">
         <center>**Title goes here**</center>
-    </h1>
+    </h3>
 
 
     <div class="table-responsive" style="min-height: 75vh;">

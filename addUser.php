@@ -6,6 +6,11 @@ if ($_SESSION['admin'] == false) {
 }
 //Connect to the database
 require "./db/db_connect.php";
+
+if (isset($_GET['uid'])) {
+    $slno = $_GET['uid'];
+    echo $slno;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,8 +31,39 @@ require "./db/db_connect.php";
     <!-- Navigation bar -->
     <?php require "./apps/navbar.php"; ?>
 
+    <div style="min-height:82vh;">
+        <h3 class="mt-1 py-3 bg-warning">
+            <center>
+                **title goes here**
+            </center>
+        </h3>
+        <div style="background-color:cyan; width:70%" class="m-auto p-4">
+            <form action="/addUser.php" method="post">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control my-4" id="user_name" name="user_name" placeholder="Username">
+                    <label for="user_name">Student name</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control my-4" id="user_Fname" name="user_Fname" placeholder="UserFname">
+                    <label for="user_Fname">Student father name</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control my-4" id="user_pass" name="user_pass" placeholder="Password">
+                    <label for="user_pass">Enter Password</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control my-4" id="user_pass" name="user_pass" placeholder="Password">
+                    <label for="user_pass">Enter Password</label>
+                </div>
+                <div class="form-floating">
+                    <input type="text" class="form-control my-4" id="user_pass" name="user_pass" placeholder="Password">
+                    <label for="user_pass">Enter Password</label>
+                </div>
+                <button type="submit" id='sub' class="btn btn-primary bg-gradient my-3">Login</button>
+            </form>
+        </div>
 
-
+    </div>
     <!-- Footer -->
     <?php require "./apps/footer.php"; ?>
     <script>

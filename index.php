@@ -24,9 +24,10 @@ require "./db/db_connect.php";
 <body>
     <!-- Navigation bar -->
     <?php require "./apps/navbar.php"; ?>
+    <div style="min-height:82vh;">
 
-
-
+    
+    </div>
     <!-- Footer -->
     <?php require "./apps/footer.php"; ?>
     <script>
