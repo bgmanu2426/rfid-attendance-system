@@ -90,7 +90,6 @@ require "./db/db_connect.php";
                     <th scope="col">Student Name</th>
                     <th scope="col">Reg.no</th>
                     <th scope="col">Student UID</th>
-                    <th scope="col">Mobile Number</th>
                     <th scope="col">LogIn</th>
                     <th scope="col">LogOut</th>
                 </tr>
@@ -112,7 +111,6 @@ require "./db/db_connect.php";
                             <td>' . $row['user_name'] . '</td>
                             <td>' . $row['user_reg_no'] . '</td>
                             <td>' . $row['user_id'] . '</td>
-                            <td>' . $row['user_number'] . '</td>
                             <td>' . $row['user_login'] . '</td>
                             <td>' . $row['user_logout'] . '</td>
                         </tr>';
