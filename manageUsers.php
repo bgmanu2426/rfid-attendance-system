@@ -20,6 +20,11 @@ if (isset($_GET['delete'])) {
     if ($result) {
         $delete = true;
     }
+    $sql = "DELETE FROM `users-login` WHERE `slno` = $slno";
+    $result = mysqli_query($connection, $sql);
+    if ($result) {
+        $delete = true;
+    }
 } elseif (isset($_POST['slnoEdit'])) {
     // Update the record in database
     $slno = $_POST['slnoEdit'];
@@ -135,7 +140,7 @@ if (isset($_GET['delete'])) {
                     d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
             </symbol>
         </svg>
-        <div class="alert alert-success d-flex align-items-center" role="alert" style="height: 48px; margin-bottom: 0; position: absolute; left: 37.5vw; top:59px;">
+        <div class="alert alert-success d-flex align-items-center" role="alert" style="height: 48px; margin-bottom: 0; position: absolute; left: 38%; top:59px;">
             <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:" style="width: 18px">
                 <use xlink:href="#check-circle-fill" />
             </svg>
@@ -151,7 +156,7 @@ if (isset($_GET['delete'])) {
                     d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
             </symbol>
         </svg>
-        <div class="alert alert-danger d-flex align-items-center" role="alert" style="height: 48px; margin-bottom: 0; position: absolute; left: 37.5vw; top:59px;">
+        <div class="alert alert-danger d-flex align-items-center" role="alert" style="height: 48px; margin-bottom: 0; position: absolute; left: 38%; top:59px;">
             <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:" style="width: 18px">
                 <use xlink:href="#check-circle-fill" />
             </svg>
@@ -162,10 +167,7 @@ if (isset($_GET['delete'])) {
     }
     ?>
 
-    <h3 class="py-3 bg-warning">
-        <center>**Title goes here**</center>
-    </h3>
-
+    <h3 class="py-2 mt-5 text-center"> Students List</h3>
 
     <div class="table-responsive" style="min-height: 75vh;">
         <table id="example" class="display">

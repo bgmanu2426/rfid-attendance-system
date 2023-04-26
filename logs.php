@@ -1,6 +1,6 @@
 <?php
 session_start();
-if (!isset($_SESSION['userNumber'])) {
+if (!isset($_SESSION['userUid'])) {
     header("location: login.php");
     exit();
 }
@@ -78,11 +78,9 @@ require "./db/db_connect.php";
 <body>
     <!-- Navigation bar -->
     <?php require "./apps/navbar.php"; ?>
-    <h1 class="py-3 bg-warning">
-        <center>**Title goes here**</center>
-    </h1>
+    <h3 class="py-2 mt-5 text-center"> Students Daily Log</h3>
     <!-- jQuery table to display users log -->
-    <div class="mx-2 table-responsive" style="min-height: 68vh;">
+    <div class="mx-2 table-responsive" style="min-height: 80vh;">
         <table class="table" id="example">
             <thead>
                 <tr>
@@ -96,7 +94,7 @@ require "./db/db_connect.php";
             </thead>
             <tbody>
                 <?php
-                $user_number = $_SESSION['userNumber'];
+                $user_number = $_SESSION['userUid'];
                 if ($_SESSION['admin'] == true) {
                     $sql = "SELECT * FROM `users-logs`";
                 } else {
