@@ -21,9 +21,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "SELECT * FROM `admin-login` WHERE admin_uid='$user_number'";
         $result = mysqli_query($connection, $sql);
         $num = mysqli_num_rows($result);
-        $fetch = mysqli_fetch_assoc($result);
-        // password_verify($user_password, $fetch['admin_pass']) //use it after hasing password 
-        if (($num == 1) && $fetch['admin_pass'] == $user_password) {
+        $fetch_rows = mysqli_fetch_assoc($result);
+        // password_verify($user_password, $fetch_rows['admin_pass']) //use it after hasing password 
+        if (($num == 1) && $fetch_rows['admin_pass'] == $user_password) {
             $_SESSION['userNumber'] = $user_number;
             $_SESSION['user'] = true;
             $_SESSION['admin'] = true;
@@ -36,9 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "SELECT * FROM `users-login` WHERE user_number='$user_number'";
         $result = mysqli_query($connection, $sql);
         $num = mysqli_num_rows($result);
-        $fetch = mysqli_fetch_assoc($result);
-        // password_verify($user_password, $fetch['user_pass']) use it after hasing password 
-        if (($num == 1) && $fetch['user_pass'] == $user_password) {
+        $fetch_rows = mysqli_fetch_assoc($result);
+        if (($num == 1) && password_verify($user_password, $fetch_rows['user_pass'])) {
             $_SESSION['userNumber'] = $user_number;
             $_SESSION['user'] = true;
             $_SESSION['admin'] = false;

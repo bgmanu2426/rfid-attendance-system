@@ -1,4 +1,10 @@
 <?php
+session_start();
+if ($_SESSION['admin'] == false) {
+    header("location: logs.php");
+    exit();
+}
+
 //Connect to the database
 require "./db/db_connect.php";
 
@@ -17,7 +23,7 @@ if (isset($_POST['user_name'])) {
     $user_pass = $_POST['user_pass'];
     $user_cpass = $_POST['user_cpass'];
     //Store the new users data to users table in th databse
-    $existsSql = "SELECT * FROM `users` WHERE `user_reg_no` = '$user_reg_no'";
+    $existsSql = "SELECT * FROM `users` WHERE `user_number` = '$user_number' AND `user_reg_no` = '$user_reg_no'";
     $existsResult = mysqli_query($connection, $existsSql);
     $numExistRow = mysqli_num_rows($existsResult);
     if ($numExistRow > 0) {
@@ -26,7 +32,7 @@ if (isset($_POST['user_name'])) {
         if ($user_pass == $user_cpass) {
             //Creating to store users login data in users table
             $user_pass_hash = password_hash($user_cpass, PASSWORD_DEFAULT);
-            $sql = "UPDATE `users` SET `user_name`=?,`user_fname`=?,`user_reg_no`=?,`user_number`=?,`user_address`=? WHERE `user_reg_no` = 0";
+            $sql = "INSERT INTO `users`(`user_name`, `user_fname`, `user_reg_no`, `user_number`, `user_address`) VALUES (?,?,?,?,?)";
             $stmt = mysqli_stmt_init($connection);
             if (!mysqli_stmt_prepare($stmt, $sql)) {
                 $showError = true;
@@ -49,12 +55,6 @@ if (isset($_POST['user_name'])) {
             $passError = true;
         }
     }
-}
-
-session_start();
-if ($_SESSION['admin'] == false) {
-    header("location: logs.php");
-    exit();
 }
 ?>
 
@@ -114,7 +114,7 @@ if ($_SESSION['admin'] == false) {
                     <input type="password" class="form-control my-4" id="user_cpass" name="user_cpass" placeholder="Mobile Number" required>
                     <label for="user_cpass">Confirm Password</label>
                 </div>
-                <button type="submit" id='sub' class="btn btn-primary bg-gradient my-3">Login</button>
+                <button type="submit" class="btn btn-primary bg-gradient my-3">Add User</button>
             </form>
         </div>
 
@@ -125,6 +125,11 @@ if ($_SESSION['admin'] == false) {
         // To add active class to the navbar
         const addClassActive = document.getElementById('add-users-tab');
         addClassActive.classList.add('active');
+
+        // To fix the re-submission error on reloading the webpage
+        if (window.history.replaceState) {
+            window.history.replaceState(null, null, window.location.href);
+        }
     </script>
 
 </body>

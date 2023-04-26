@@ -104,15 +104,15 @@ require "./db/db_connect.php";
                 }
                 $result = mysqli_query($connection, $sql);
                 $num = 1;
-                while ($row = mysqli_fetch_assoc($result)) {
+                while ($fetch_rows = mysqli_fetch_assoc($result)) {
                     echo '
                         <tr>
-                            <th scope="row">' . $num . '</th>
-                            <td>' . $row['user_name'] . '</td>
-                            <td>' . $row['user_reg_no'] . '</td>
-                            <td>' . $row['user_id'] . '</td>
-                            <td>' . $row['user_login'] . '</td>
-                            <td>' . $row['user_logout'] . '</td>
+                            <td>' . $fetch_rows['date'] . '</td>
+                            <td>' . $fetch_rows['user_name'] . '</td>
+                            <td>' . $fetch_rows['user_reg_no'] . '</td>
+                            <td>' . $fetch_rows['user_id'] . '</td>
+                            <td>' . $fetch_rows['user_login'] . '</td>
+                            <td>' . $fetch_rows['user_logout'] . '</td>
                         </tr>';
                     $num = $num + 1;
                 }

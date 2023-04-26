@@ -186,20 +186,20 @@ if (isset($_GET['delete'])) {
                 $sql = "SELECT * FROM `users`";
                 $result = mysqli_query($connection, $sql);
                 $num = 1;
-                while ($row = mysqli_fetch_assoc($result)) {
+                while ($fetch_rows = mysqli_fetch_assoc($result)) {
                     echo '
                     <tr>
                         <th scope="row">' . $num . '</th>
-                        <td>' . $row['user_name'] . '</td>
-                        <td>' . $row['user_fname'] . '</td>
-                        <td>' . $row['user_id'] . '</td>
-                        <td>' . $row['user_reg_no'] . '</td>
-                        <td>' . $row['user_number'] . '</td>
-                        <td>' . $row['user_address'] . '</td>
+                        <td>' . $fetch_rows['user_name'] . '</td>
+                        <td>' . $fetch_rows['user_fname'] . '</td>
+                        <td>' . $fetch_rows['user_id'] . '</td>
+                        <td>' . $fetch_rows['user_reg_no'] . '</td>
+                        <td>' . $fetch_rows['user_number'] . '</td>
+                        <td>' . $fetch_rows['user_address'] . '</td>
                         <td>  
                             <div class="d-flex flex-row mb-3">
-                                <div class="p-1 m-auto"><button id="edit' . $row['slno'] . '" class="edit btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">&nbsp&nbsp&nbspEdit&nbsp&nbsp</button></div>
-                                <div class="p-1 m-auto"><button id="delete' . $row['slno'] . '" class="delete btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></div>
+                                <div class="p-1 m-auto"><button id="edit' . $fetch_rows['slno'] . '" class="edit btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">&nbsp&nbsp&nbspEdit&nbsp&nbsp</button></div>
+                                <div class="p-1 m-auto"><button id="delete' . $fetch_rows['slno'] . '" class="delete btn btn-sm btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">Delete</button></div>
                             </div>
                         </td>
                     </tr>';
