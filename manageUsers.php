@@ -29,7 +29,7 @@ if (isset($_GET['delete'])) {
     $userRegisterNo = $_POST['userRegisterNo'];
     $userNumber = $_POST['userNumber'];
     $userAddress = $_POST['userAddress'];
-    $sql = "UPDATE `users` SET `user_name` = '$userName', `user_fname` = '$userFName', `user_id` = '$userID', `user_reg_no` = '$userRegisterNo', `user_mobile` = '$userNumber', `user_address` = '$userAddress' WHERE `slno` = $slno";
+    $sql = "UPDATE `users` SET `user_name` = '$userName', `user_fname` = '$userFName', `user_id` = '$userID', `user_reg_no` = '$userRegisterNo', `user_number` = '$userNumber', `user_address` = '$userAddress' WHERE `slno` = $slno";
     $result = mysqli_query($connection, $sql);
     if ($result) {
         $update = true;
@@ -194,7 +194,7 @@ if (isset($_GET['delete'])) {
                         <td>' . $row['user_fname'] . '</td>
                         <td>' . $row['user_id'] . '</td>
                         <td>' . $row['user_reg_no'] . '</td>
-                        <td>' . $row['user_mobile'] . '</td>
+                        <td>' . $row['user_number'] . '</td>
                         <td>' . $row['user_address'] . '</td>
                         <td>  
                             <div class="d-flex flex-row mb-3">
@@ -223,14 +223,14 @@ if (isset($_GET['delete'])) {
             user_fname = tr.getElementsByTagName("td")[1].innerText;
             user_id = tr.getElementsByTagName("td")[2].innerText;
             user_reg_no = tr.getElementsByTagName("td")[3].innerText;
-            user_mobile = tr.getElementsByTagName("td")[4].innerText;
+            user_number = tr.getElementsByTagName("td")[4].innerText;
             user_address = tr.getElementsByTagName("td")[5].innerText;
             slnoEdit.value = e.target.id.substr(4, );
             userName.value = user_name;
             userFName.value = user_fname;
             userID.value = user_id;
             userRegisterNo.value = user_reg_no;
-            userNumber.value = user_mobile;
+            userNumber.value = user_number;
             userAddress.value = user_address;
         })
     })

@@ -1,6 +1,8 @@
 <?php
 //Connect to the database
 require "./db/db_connect.php";
+
+// Flags to show Alerts
 $exists = false;
 $showError = false;
 $passError = false;
@@ -24,17 +26,23 @@ if (isset($_POST['user_name'])) {
         if ($user_pass == $user_cpass) {
             //Creating to store users login data in users table
             $user_pass_hash = password_hash($user_cpass, PASSWORD_DEFAULT);
-            $sql = "UPDATE `users` SET `user_name`=?,`user_fname`=?,`user_reg_no`=?,`user_mobile`=?,`user_address`=? WHERE `user_reg_no` = 0";
-            $sql1 = "INSERT INTO `users-login`(`user_number`, `user_pass`) VALUES (?,?)";
+            $sql = "UPDATE `users` SET `user_name`=?,`user_fname`=?,`user_reg_no`=?,`user_number`=?,`user_address`=? WHERE `user_reg_no` = 0";
             $stmt = mysqli_stmt_init($connection);
-            $stmt1 = mysqli_stmt_init($connection);
-            if ((!mysqli_stmt_prepare($stmt, $sql)) && (!mysqli_stmt_prepare($stmt1, $sql1))) {
+            if (!mysqli_stmt_prepare($stmt, $sql)) {
                 $showError = true;
             } else {
                 $showSuccess = true;
                 mysqli_stmt_bind_param($stmt, "sssss", $user_name, $user_Fname, $user_reg_no, $user_number, $user_address);
-                mysqli_stmt_bind_param($stmt1, "ss", $user_number, $user_pass_hash);
                 mysqli_stmt_execute($stmt);
+            }
+
+            $sql1 = "INSERT INTO `users-login`(`user_number`, `user_pass`) VALUES (?,?)";
+            $stmt1 = mysqli_stmt_init($connection);
+            if (!mysqli_stmt_prepare($stmt1, $sql1)) {
+                $showError = true;
+            } else {
+                $showSuccess = true;
+                mysqli_stmt_bind_param($stmt1, "ss", $user_number, $user_pass_hash);
                 mysqli_stmt_execute($stmt1);
             }
         } else {
@@ -77,7 +85,7 @@ if ($_SESSION['admin'] == false) {
             </center>
         </h3>
         <div style="background-color:cyan; width:70%" class="m-auto p-4">
-            <form action="/addUser.php" method="post">
+            <form action="./addUser.php" method="post">
                 <div class="form-floating mb-3">
                     <input type="text" class="form-control my-4" id="user_name" name="user_name" placeholder="Username" required>
                     <label for="user_name">Student name</label>
@@ -103,7 +111,7 @@ if ($_SESSION['admin'] == false) {
                     <label for="user_pass">Enter Password</label>
                 </div>
                 <div class="form-floating">
-                    <input type="text" class="form-control my-4" id="user_cpass" name="user_cpass" placeholder="Mobile Number" required>
+                    <input type="password" class="form-control my-4" id="user_cpass" name="user_cpass" placeholder="Mobile Number" required>
                     <label for="user_cpass">Confirm Password</label>
                 </div>
                 <button type="submit" id='sub' class="btn btn-primary bg-gradient my-3">Login</button>
