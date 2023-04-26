@@ -2,7 +2,9 @@
 //Connect to the database
 require "./db/db_connect.php";
 $userError = false;
+
 $date = date("d-m-Y");
+date_default_timezone_set("Asia/Kolkata");
 $time = date("h:i:sa");
 
 if (isset($_GET['uid'])) {
