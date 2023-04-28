@@ -27,7 +27,7 @@ if (isset($_GET['uid'])) {
         $sql0 = "SELECT * FROM `users-logs` WHERE `user_id` = '$user_id_get' AND `date` = '$date'";
         $result0 = mysqli_query($connection, $sql0);
         if (!$result0) {
-            echo "error finding userId and date in users-logs";
+            echo "Error finding userId and date in users-logs";
         }
         $num_rows = mysqli_num_rows($result0);
         $fetch_rows0 = mysqli_fetch_assoc($result0);
@@ -39,7 +39,9 @@ if (isset($_GET['uid'])) {
             if (!$result1) {
                 echo "Error logging in";
             } else {
-                echo "Welcome " . $user_name . "! You have been loggedin successfully";
+                echo "Welcome " . $user_name . "! You are loggedin";
+                http_response_code(200);
+                exit;
             }
         } elseif ($num_rows == 1 && $fetch_rows0['user_logout'] == "0") {
             // Logout the user if he is loggedIn
@@ -48,11 +50,15 @@ if (isset($_GET['uid'])) {
             if (!$result2) {
                 echo "Error logging out";
             } else {
-                echo "Have a good day " . $user_name . ", you have been loggedout successfully";
+                echo "Good bye" . $user_name . "!You are loggedout";
+                http_response_code(200);
+                exit;
             }
         } else {
             // If the user has checked in & out today tell him to comeback tommorow
-            echo "You have already logged today comeback tommorow";
+            echo "You are registerd today comeback tommorow";
+            http_response_code(404);
+            exit;
         }
     } else {
         // If user dosen't exists
@@ -66,12 +72,16 @@ if (isset($_GET['uid'])) {
             if (!$result1) {
                 echo "Error registering your account";
             } else {
-                echo "You have been sucessfully registered";
+                echo "Successfully Registered User";
+                http_response_code(200);
+                exit;
             }
         } elseif ($num_rows > 1) {
             echo "Multiple users detected";
+            http_response_code(404);
+            exit;
         } else {
-            echo "your card is invalid";
+            echo "Your card is invalid";
             http_response_code(404);
             exit;
         }
