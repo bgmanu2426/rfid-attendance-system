@@ -1,7 +1,7 @@
 <?php
 session_start();
 if ($_SESSION['admin'] == false) {
-    header("location: logs.php");
+    header("location: index.php");
     exit();
 }
 

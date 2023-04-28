@@ -18,14 +18,11 @@ echo '<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link" id="home-tab" href="./index.php">Home</a>
-                </li>';
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">';
 if ($loggedin) {
     echo '
                 <li class="nav-item">
-                    <a class="nav-link" id="logs-tab" href="./logs.php">Logs</a>
+                    <a class="nav-link" id="logs-tab" href="./index.php">Logs</a>
                 </li>';
 }
 if ($adminlogin) {

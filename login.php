@@ -2,7 +2,7 @@
 //Start the session
 session_start();
 if (isset($_SESSION['userUid'])) {
-    header("location: logs.php");
+    header("location: index.php");
     exit();
 }
 
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['userUid'] = $user_number;
             $_SESSION['user'] = true;
             $_SESSION['admin'] = false;
-            header("location: logs.php");
+            header("location: index.php");
         } else {
             $showError = true;
         }

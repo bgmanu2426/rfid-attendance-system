@@ -1,7 +1,7 @@
 <?php
 session_start();
 if ($_SESSION['admin'] == false) {
-    header("location: logs.php");
+    header("location: index.php");
     exit();
 }
 
@@ -34,13 +34,14 @@ if (isset($_POST['user_name'])) {
         //Store the student details in users database
         if ($user_pass === $user_cpass) {
             $user_pass_hash = password_hash($user_cpass, PASSWORD_DEFAULT);
-            $sql = "INSERT INTO `users`(`user_name`, `user_fname`, `user_reg_no`, `user_number`, `user_address`) VALUES (?,?,?,?,?)";
+            $sql = "INSERT INTO `users`(`user_name`, `user_fname`, `user_id`, `user_reg_no`, `user_number`, `user_address`) VALUES (?,?,?,?,?,?)";
             $stmt = mysqli_stmt_init($connection);
             if (!mysqli_stmt_prepare($stmt, $sql)) {
                 $showError = true;  // Show error if the database fails to store user details
             } else {
                 $showSuccess = true;  // Show success on storing the user details in the database
-                mysqli_stmt_bind_param($stmt, "sssss", $user_name, $user_Fname, $user_reg_no, $user_number, $user_address);
+				$null_val_for_userid = '0';
+                mysqli_stmt_bind_param($stmt, "ssssss", $user_name, $user_Fname, $null_val_for_userid, $user_reg_no, $user_number, $user_address);
                 mysqli_stmt_execute($stmt);
             }
 
