@@ -73,7 +73,7 @@ if (isset($_GET['uid'])) {
                 echo "Error registering your account";
             } else {
                 echo "Successfully Registered User";
-                http_response_code(200);
+                http_response_code(201);
                 exit;
             }
         } elseif ($num_rows > 1) {
