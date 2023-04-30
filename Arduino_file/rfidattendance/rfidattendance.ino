@@ -4,20 +4,20 @@
 // MFRC522 for RFID Reader --> https://github.com/miguelbalboa/rfid
 // ThingPulse OLED SSD1306 for OLED 128x64 Display --> https://github.com/ThingPulse/esp8266-oled-ssd1306
 // NTPClient for showing time --> https://github.com/arduino-libraries/NTPClient
-// NTPClient ESP32 time example --> https://randomnerdtutorials.com/esp32-ntp-client-date-time-arduino-ide/
+// NTPClient ESP32 time example --> https://randomnerdtutorials.com/esp8266-nodemcu-date-time-ntp-client-server-arduino/
 // WiFi and WiFiUdp --> https://github.com/espressif/arduino-esp32/tree/master/libraries/WiFi
 // Display Fonts --> http://oleddisplay.squix.ch/
 //
 */
 
-#include <WiFi.h>           // ESP32 WiFi Library
-#include <HTTPClient.h>     // To send HTTP Request to Server
-#include <SPI.h>            // To declare software SPI pins
-#include <MFRC522.h>        // RFID Library
-#include <SSD1306Wire.h>    // 128x64 OLED Display
-#include <Wire.h>           // To declare software I2C pins
-#include <NTPClient.h>      // NTP (Network Time Protocol) to display time
-#include <WiFiUdp.h>        // To send request and update time from NTP Server
+#include <WiFi.h>         // ESP32 WiFi Library
+#include <HTTPClient.h>   // To send HTTP Request to Server
+#include <SPI.h>          // To declare software SPI pins
+#include <MFRC522.h>      // RFID Library
+#include <SSD1306Wire.h>  // 128x64 OLED Display
+#include <Wire.h>         // To declare software I2C pins
+#include <NTPClient.h>    // NTP (Network Time Protocol) to display time
+#include <WiFiUdp.h>      // To send request and update time from NTP Server
 
 //Local files these should be imported locally which contains Fonts, Server and Wi-Fi Credentials
 #include "Rancho_Regular.h"
@@ -29,13 +29,13 @@
 #define Relay_Pin 15
 
 String getData, Link;
-String formattedDate;
+String formattedTime;
 String dayStamp;
 String timeStamp;
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance.
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP); // Define NTP Client to get time
+NTPClient timeClient(ntpUDP);  // Define NTP Client to get time
 
 const char *ssid = WLAN_USERNAME;
 const char *password = WLAN_PASSWORD;
@@ -44,17 +44,17 @@ const char *password = WLAN_PASSWORD;
 #define OLED_RESET -1  // Reset pin because OLED dosent have a default reset PIN
 #define OLED_SDA 4
 #define OLED_SCL 22
-SSD1306Wire display(0x3C, OLED_SDA, OLED_SCL); //0x3C is the I2C address of OLED display
+SSD1306Wire display(0x3C, OLED_SDA, OLED_SCL);  //0x3C is the I2C address of OLED display
 
 void setup() {
   Serial.begin(9600);
-  SPI.begin();         // Init SPI bus
-  mfrc522.PCD_Init();  // Init MFRC522 card
-  display.init();      // Init OLED display
-  display.flipScreenVertically();  // Flips the screen
-  connectToWiFi();        // Connect to WiFi
-  timeClient.begin();     // Init NTPClient
-  timeClient.setTimeOffset(19800); // Set offset according to IST
+  SPI.begin();                      // Init SPI bus
+  mfrc522.PCD_Init();               // Init MFRC522 card
+  display.init();                   // Init OLED display
+  display.flipScreenVertically();   // Flips the screen
+  connectToWiFi();                  // Connect to WiFi
+  timeClient.begin();               // Init NTPClient
+  timeClient.setTimeOffset(19800);  // Set offset according to IST
 }
 
 void loop() {
@@ -66,17 +66,13 @@ void loop() {
     timeClient.forceUpdate();  // Update time
   }
   
-  formattedDate = timeClient.getFormattedDate(); 
-  int splitT = formattedDate.indexOf("T");
-  dayStamp = formattedDate.substring(0, splitT); // Extract date
-  timeStamp = formattedDate.substring(splitT + 1, formattedDate.length() - 1); // Extract time
+  formattedTime = timeClient.getFormattedTime();
 
   display.clear();
   display.setFont(Rancho_Regular_20);
   display.setTextAlignment(TEXT_ALIGN_LEFT);
   display.drawString(13, 10, "Scan Your Card");
-  // display.drawString(6, 35, dayStamp);
-  display.drawString(36, 35, timeStamp);
+  display.drawString(36, 35, formattedTime);
   display.display();
 
   //look for new card
@@ -95,7 +91,7 @@ void loop() {
     CardID += mfrc522.uid.uidByte[i];
   }
 
-  CardID.replace(" ", ""); //Remove spaces from the CardUID Number
+  CardID.replace(" ", "");  //Remove spaces from the CardUID Number
   SendCardID(CardID);
   delay(3000);
 }
@@ -112,7 +108,7 @@ void SendCardID(String Card_uid) {
   if (WiFi.isConnected()) {
     HTTPClient http;                       //Declare object of class HTTPClient
     getData = "?uid=" + String(Card_uid);  // Add the Card ID to the GET array in order to send it //GET Data
-    Link = REQ_URL + getData;                  //GET method
+    Link = REQ_URL + getData;              //GET method
     http.begin(Link);                      //initiate HTTP request   //Specify content-type header
 
     int httpCode = http.GET();          //Send the request
