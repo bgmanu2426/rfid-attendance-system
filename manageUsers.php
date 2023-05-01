@@ -15,16 +15,20 @@ $delete = false;
 if (isset($_GET['delete'])) {
     // operations perfomed using the GET method to delete the note in databse
     $slno = $_GET['delete'];
-    $sql = "DELETE FROM `users` WHERE `slno` = $slno";
-    $result = mysqli_query($connection, $sql);
-    if ($result) {
+    $sql = "DELETE FROM `users` WHERE `slno` = ?";
+    $stmt = mysqli_stmt_init($connection);
+    if (mysqli_stmt_prepare($stmt, $sql)) {
         $delete = true;
     }
-    $sql = "DELETE FROM `users-login` WHERE `slno` = $slno";
-    $result = mysqli_query($connection, $sql);
-    if ($result) {
+    mysqli_stmt_bind_param($stmt, "s", $slno);
+    mysqli_stmt_execute($stmt);
+    $sql = "DELETE FROM `users-login` WHERE `slno` = ?";
+    $stmt = mysqli_stmt_init($connection);
+    if (mysqli_stmt_prepare($stmt, $sql)) {
         $delete = true;
     }
+    mysqli_stmt_bind_param($stmt, "s", $slno);
+    mysqli_stmt_execute($stmt);
 } elseif (isset($_POST['slnoEdit'])) {
     // Update the record in database
     $slno = $_POST['slnoEdit'];
@@ -34,11 +38,13 @@ if (isset($_GET['delete'])) {
     $userRegisterNo = $_POST['userRegisterNo'];
     $userNumber = $_POST['userNumber'];
     $userAddress = $_POST['userAddress'];
-    $sql = "UPDATE `users` SET `user_name` = '$userName', `user_fname` = '$userFName', `user_id` = '$userID', `user_reg_no` = '$userRegisterNo', `user_number` = '$userNumber', `user_address` = '$userAddress' WHERE `slno` = $slno";
-    $result = mysqli_query($connection, $sql);
-    if ($result) {
+    $sql = "UPDATE `users` SET `user_name` = ?, `user_fname` = ?, `user_id` = ?, `user_reg_no` = ?, `user_number` = ?, `user_address` = ? WHERE `slno` = ?";
+    $stmt = mysqli_stmt_init($connection);
+    if (mysqli_stmt_prepare($stmt, $sql)) {
         $update = true;
     }
+    mysqli_stmt_bind_param($stmt, "sssssss", $userName, $userFName, $userID, $userRegisterNo, $userNumber, $userAddress, $slno);
+    mysqli_stmt_execute($stmt);
 }
 
 ?>
@@ -55,6 +61,7 @@ if (isset($_GET['delete'])) {
     <link rel="stylesheet" href="./css/dataTables.jqueryui.min.css">
     <link rel="stylesheet" href="./css/buttons.jqueryui.min.css">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <!-- Bootstrap CSS  -->
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <style>
@@ -140,7 +147,7 @@ if (isset($_GET['delete'])) {
                     d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
             </symbol>
         </svg>
-        <div class="alert alert-success d-flex align-items-center" role="alert" style="height: 48px; margin-bottom: 0; position: absolute; left: 38%; top:59px;">
+        <div class="alert alert-success d-flex align-items-center" role="alert" style="height: 48px; margin-bottom: 0; position: absolute; left: 38%; top:69px;">
             <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:" style="width: 18px">
                 <use xlink:href="#check-circle-fill" />
             </svg>
@@ -156,7 +163,7 @@ if (isset($_GET['delete'])) {
                     d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
             </symbol>
         </svg>
-        <div class="alert alert-danger d-flex align-items-center" role="alert" style="height: 48px; margin-bottom: 0; position: absolute; left: 38%; top:59px;">
+        <div class="alert alert-danger d-flex align-items-center" role="alert" style="height: 48px; margin-bottom: 0; position: absolute; left: 38%; top:69px;">
             <svg class="bi flex-shrink-0 me-2" role="img" aria-label="Success:" style="width: 18px">
                 <use xlink:href="#check-circle-fill" />
             </svg>

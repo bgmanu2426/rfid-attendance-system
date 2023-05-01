@@ -22,6 +22,7 @@ require "./db/db_connect.php";
     <link rel="stylesheet" href="./css/dataTables.jqueryui.min.css">
     <link rel="stylesheet" href="./css/buttons.jqueryui.min.css">
     <link rel="stylesheet" href="./css/style.css">
+    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
     <!-- Bootstrap CSS  -->
     <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <style>

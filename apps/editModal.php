@@ -26,7 +26,7 @@
                     </div>
                     <div class="mb-3 my-3">
                         <label for="userNumber" class="form-label">Mobile Number</label>
-                        <input type="text" class="form-control" id="userNumber" name="userNumber">
+                        <input type="text" class="form-control" id="userNumber" name="userNumber" readonly>
                     </div>
                     <div class="mb-3 my-3">
                         <label for="userAddress" class="form-label">Student Address</label>

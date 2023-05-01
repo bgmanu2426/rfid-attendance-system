@@ -33,24 +33,28 @@ if (isset($_GET['uid'])) {
         $fetch_rows0 = mysqli_fetch_assoc($result0);
         // LogIn the user if he is not loggedIn
         if ($num_rows == 0) {
-            $timeout = "0";
-            $sql1 = "INSERT INTO `users-logs`(`date`, `user_name`, `user_reg_no`, `user_id`, `user_number`, `user_login`, `user_logout`) VALUES ('$date','$user_name','$user_reg_no','$user_id','$user_number','$time',$timeout)";
-            $result1 = mysqli_query($connection, $sql1);
-            if (!$result1) {
+            $sql1 = "INSERT INTO `users-logs`(`date`, `user_name`, `user_reg_no`, `user_id`, `user_number`, `user_login`, `user_logout`) VALUES (?,?,?,?,?,?,?)";
+            $stmt1 = mysqli_stmt_init($connection);
+            if (!mysqli_stmt_prepare($stmt1, $sql1)) {
                 echo "Error logging in";
             } else {
+                $timeout = "0";
+                mysqli_stmt_bind_param($stmt1, "sssssss", $date, $user_name, $user_reg_no, $user_id, $user_number, $time, $timeout);
+                mysqli_stmt_execute($stmt1);
                 echo "Welcome " . $user_name . "! You are loggedin";
                 http_response_code(200);
                 exit;
             }
         } elseif ($num_rows == 1 && $fetch_rows0['user_logout'] == "0") {
             // Logout the user if he is loggedIn
-            $sql2 = "UPDATE `users-logs` SET `user_logout`= '$time' WHERE `user_id` = '$user_id_get' AND `date` = '$date'";
-            $result2 = mysqli_query($connection, $sql2);
-            if (!$result2) {
+            $sql2 = "UPDATE `users-logs` SET `user_logout`= ? WHERE `user_id` = ? AND `date` = ?";
+            $stmt2 = mysqli_stmt_init($connection);
+            if (!mysqli_stmt_prepare($stmt2, $sql2)) {
                 echo "Error logging out";
             } else {
-                echo "Good bye" . $user_name . "!You are loggedout";
+                mysqli_stmt_bind_param($stmt2, "sss", $time, $user_id_get, $date);
+                mysqli_stmt_execute($stmt2);
+                echo "Good bye " . $user_name . "!You are loggedout";
                 http_response_code(200);
                 exit;
             }
