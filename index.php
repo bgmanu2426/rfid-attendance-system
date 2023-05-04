@@ -89,6 +89,7 @@ require "./db/db_connect.php";
                     <th scope="col">Student Name</th>
                     <th scope="col">Reg.no</th>
                     <th scope="col">Student UID</th>
+                    <th scope="col">Date</th>
                     <th scope="col">LogIn</th>
                     <th scope="col">LogOut</th>
                 </tr>
@@ -106,12 +107,13 @@ require "./db/db_connect.php";
                 while ($fetch_rows = mysqli_fetch_assoc($result)) {
                     echo '
                         <tr>
-                            <td>' . $fetch_rows['date'] . '</td>
-                            <td>' . $fetch_rows['user_name'] . '</td>
-                            <td>' . $fetch_rows['user_reg_no'] . '</td>
-                            <td>' . $fetch_rows['user_id'] . '</td>
-                            <td>' . $fetch_rows['user_login'] . '</td>
-                            <td>' . $fetch_rows['user_logout'] . '</td>
+                        <td>' . $fetch_rows['slno'] . '</td>
+                        <td>' . $fetch_rows['user_name'] . '</td>
+                        <td>' . $fetch_rows['user_reg_no'] . '</td>
+                        <td>' . $fetch_rows['user_id'] . '</td>
+                        <td>' . $fetch_rows['date'] . '</td>
+                        <td>' . $fetch_rows['user_login'] . '</td>
+                        <td>' . $fetch_rows['user_logout'] . '</td>
                         </tr>';
                     $num = $num + 1;
                 }
