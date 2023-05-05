@@ -91,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ?>
 
     <!-- Login form -->
-    <div class="container col-md-6 my-5" style="min-height: 66.5vh;">
+    <div class="container col-md-6 my-5" style="min-height: 80vh;">
         <h3 class="text-center my-4 pt-2">Login to Attendance System </h3>
         <form action="./login.php" method="POST">
             <div class="form-floating mb-3">

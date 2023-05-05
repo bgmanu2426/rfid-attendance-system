@@ -152,7 +152,7 @@ if (isset($_POST['user_name'])) {
     ?>
 
     <h3 class="py-2 mt-5 text-center">Register Student Details</h3>
-    <div style="min-height:82vh;">
+    <div style="min-height:92vh;">
         <div style="width:70%" class="m-auto px-4">
             <form action="./addUser.php" method="post">
                 <div class="form-floating mb-3">

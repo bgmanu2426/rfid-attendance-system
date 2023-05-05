@@ -81,7 +81,7 @@ require "./db/db_connect.php";
     <?php require "./apps/navbar.php"; ?>
     <h3 class="py-2 mt-5 text-center"> Students Daily Log</h3>
     <!-- jQuery table to display users log -->
-    <div class="mx-2 table-responsive" style="min-height: 80vh;">
+    <div class="mx-2 table-responsive" style="min-height: 90vh;">
         <table class="table" id="example">
             <thead>
                 <tr>

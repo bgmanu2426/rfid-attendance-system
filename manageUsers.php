@@ -176,7 +176,7 @@ if (isset($_GET['delete'])) {
 
     <h3 class="py-2 mt-5 text-center"> Students List</h3>
 
-    <div class="table-responsive" style="min-height: 75vh;">
+    <div class="table-responsive" style="min-height: 85vh;">
         <table id="example" class="display">
             <thead>
                 <tr>
