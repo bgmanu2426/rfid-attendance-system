@@ -48,11 +48,12 @@ SSD1306Wire display(0x3C, OLED_SDA, OLED_SCL);  //0x3C is the I2C address of OLE
 
 void setup() {
   Serial.begin(9600);
-  SPI.begin();                      // Init SPI bus
-  mfrc522.PCD_Init();               // Init MFRC522 card
-  display.init();                   // Init OLED display
-  display.flipScreenVertically();   // Flips the screen
-  connectToWiFi();                  // Connect to WiFi
+  SPI.begin();                     // Init SPI bus
+  mfrc522.PCD_Init();              // Init MFRC522 card
+  display.init();                  // Init OLED display
+  display.flipScreenVertically();  // Flips the screen
+  connectToWiFi();                 // Connect to WiFi
+  digitalWrite(Relay_Pin, HIGH);
   timeClient.begin();               // Init NTPClient
   timeClient.setTimeOffset(19800);  // Set offset according to IST
 }
@@ -62,11 +63,9 @@ void loop() {
     connectToWiFi();  //Retry to connect to Wi-Fi
   }
 
-  while (!timeClient.update()) {
-    timeClient.forceUpdate();  // Update time
-  }
-  
+  timeClient.update();
   formattedTime = timeClient.getFormattedTime();
+  Serial.println(formattedTime);
 
   display.clear();
   display.setFont(Rancho_Regular_20);
@@ -133,10 +132,10 @@ void SendCardID(String Card_uid) {
 
     if (httpCode == 200) {
       //Open the Lock
-      digitalWrite(Relay_Pin, HIGH);
+      digitalWrite(Relay_Pin, LOW);
       Serial.println("Lock is Open");
       delay(7000);
-      digitalWrite(Relay_Pin, LOW);
+      digitalWrite(Relay_Pin, HIGH);
       Serial.println("Lock is Closed");
     }
     http.end();  //Close connection
