@@ -11,13 +11,13 @@
 */
 
 #include <WiFi.h>         // ESP32 WiFi Library
-#include <HTTPClient.h>   // To send HTTP Request to Server
-#include <SPI.h>          // To declare software SPI pins
-#include <MFRC522.h>      // RFID Library
-#include <SSD1306Wire.h>  // 128x64 OLED Display
-#include <Wire.h>         // To declare software I2C pins
-#include <NTPClient.h>    // NTP (Network Time Protocol) to display time
 #include <WiFiUdp.h>      // To send request and update time from NTP Server
+#include <HTTPClient.h>   // To send HTTP Request to Server
+#include <MFRC522.h>      // RFID Library
+#include <NTPClient.h>    // NTP (Network Time Protocol) to display time
+#include <Wire.h>         // To declare software I2C pins
+#include <SPI.h>          // To declare software SPI pins
+#include <SSD1306Wire.h>  // 128x64 OLED Display
 
 //Local files these should be imported locally which contains Fonts, Server and Wi-Fi Credentials
 #include "Rancho_Regular.h"
@@ -27,11 +27,10 @@
 #define SS_PIN 21
 #define RST_PIN 5
 #define Relay_Pin 15
+bool relayTriggered = false;
 
 String getData, Link;
 String formattedTime;
-String dayStamp;
-String timeStamp;
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance.
 WiFiUDP ntpUDP;
@@ -41,19 +40,18 @@ const char *ssid = WLAN_USERNAME;
 const char *password = WLAN_PASSWORD;
 
 // Define I2C pins for OLED display
-#define OLED_RESET -1  // Reset pin because OLED dosent have a default reset PIN
 #define OLED_SDA 4
 #define OLED_SCL 22
 SSD1306Wire display(0x3C, OLED_SDA, OLED_SCL);  //0x3C is the I2C address of OLED display
 
 void setup() {
   Serial.begin(9600);
-  SPI.begin();                     // Init SPI bus
-  mfrc522.PCD_Init();              // Init MFRC522 card
-  display.init();                  // Init OLED display
-  display.flipScreenVertically();  // Flips the screen
-  connectToWiFi();                 // Connect to WiFi
-  digitalWrite(Relay_Pin, HIGH);
+  pinMode(Relay_Pin, OUTPUT);
+  SPI.begin();                      // Init SPI bus
+  mfrc522.PCD_Init();               // Init MFRC522 card
+  display.init();                   // Init OLED display
+  display.flipScreenVertically();   // Flips the screen
+  connectToWiFi();                  // Connect to WiFi
   timeClient.begin();               // Init NTPClient
   timeClient.setTimeOffset(19800);  // Set offset according to IST
 }
@@ -65,7 +63,7 @@ void loop() {
 
   timeClient.update();
   formattedTime = timeClient.getFormattedTime();
-  Serial.println(formattedTime);
+  // Serial.println(formattedTime);
 
   display.clear();
   display.setFont(Rancho_Regular_20);
@@ -89,10 +87,9 @@ void loop() {
   for (byte i = 0; i < mfrc522.uid.size; i++) {
     CardID += mfrc522.uid.uidByte[i];
   }
-
   CardID.replace(" ", "");  //Remove spaces from the CardUID Number
+
   SendCardID(CardID);
-  delay(3000);
 }
 
 // Send CardUID to Website
@@ -103,18 +100,18 @@ void SendCardID(String Card_uid) {
   display.drawString(64, 25, "Verifying the ID");
   display.display();
 
-  Serial.println("Sending the Card ID :");
+  // Serial.println("Sending the Card ID :");
   if (WiFi.isConnected()) {
     HTTPClient http;                       //Declare object of class HTTPClient
-    getData = "?uid=" + String(Card_uid);  // Add the Card ID to the GET array in order to send it //GET Data
+    getData = String("?uid=") + Card_uid;  // Add the Card ID to the GET array in order to send it //GET Data
     Link = REQ_URL + getData;              //GET method
     http.begin(Link);                      //initiate HTTP request   //Specify content-type header
 
     int httpCode = http.GET();          //Send the request
     String payload = http.getString();  //Get the response payload
-    Serial.println(Card_uid);
+    // Serial.println(Card_uid);
+    // Serial.println(payload);
     Serial.println(httpCode);
-    Serial.println(payload);
 
     if (httpCode == -1) {
       display.clear();
@@ -122,24 +119,47 @@ void SendCardID(String Card_uid) {
       display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
       display.drawString(64, 30, "Internal Server ERROR");
       display.display();
-    } else {
+      delay(3000);
+    } else if (httpCode == 200) {
+      if (!relayTriggered) {
+        display.clear();
+        display.setFont(ArialMT_Plain_10);
+        display.setTextAlignment(TEXT_ALIGN_LEFT);
+        display.drawStringMaxWidth(10, 10, 128, payload);
+        display.display();
+        trigger_Relay();
+        relayTriggered = true;
+      }
+    } else if (httpCode == 404) {
       display.clear();
       display.setFont(ArialMT_Plain_10);
       display.setTextAlignment(TEXT_ALIGN_LEFT);
       display.drawStringMaxWidth(10, 10, 128, payload);
       display.display();
+      delay(3000);
+    } else {
+      display.clear();
+      display.setFont(ArialMT_Plain_10);
+      display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+      display.drawString(64, 30, "HTTP ERROR :" + String(httpCode));
+      display.display();
+      delay(3000);
     }
-
-    if (httpCode == 200) {
-      //Open the Lock
-      digitalWrite(Relay_Pin, LOW);
-      Serial.println("Lock is Open");
-      delay(7000);
-      digitalWrite(Relay_Pin, HIGH);
-      Serial.println("Lock is Closed");
-    }
-    http.end();  //Close connection
+    http.end();  // Close connection
+  } else {
+    display.clear();
+    display.setFont(ArialMT_Plain_10);
+    display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+    display.drawString(64, 30, "Wi-Fi Disconnected");
+    display.display();
+    delay(3000);
   }
+}
+
+void trigger_Relay() {
+  digitalWrite(Relay_Pin, HIGH);
+  delay(7000);
+  digitalWrite(Relay_Pin, LOW);
 }
 
 void connectToWiFi() {
@@ -149,26 +169,36 @@ void connectToWiFi() {
   display.drawString(64, 34, "Connecting to Wi-Fi");  //  adds to buffer
   display.display();
 
-  WiFi.mode(WIFI_OFF);  //Prevents reconnection issue (taking too long to connect)
-  delay(1000);
+  WiFi.mode(WIFI_OFF);  // Disconnect from any previous connections
+  delay(500);
   WiFi.mode(WIFI_STA);
   Serial.print("Connecting to Wi-Fi");
   WiFi.begin(ssid, password);
 
-  while (WiFi.status() != WL_CONNECTED) {
+  unsigned long startTime = millis();                                      // Start time for timeout
+  while (WiFi.status() != WL_CONNECTED && millis() - startTime < 10000) {  // Timeout after 10 seconds
     delay(500);
     Serial.print(".");
   }
 
-  Serial.println("");
-  Serial.println("Connected to ");
-  Serial.println(ssid);
+  if (WiFi.status() == WL_CONNECTED) {
+    // Serial.println("");
+    // Serial.println("Connected to");
+    // Serial.println(ssid);
 
-  display.clear();
-  display.setFont(ArialMT_Plain_10);
-  display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
-  display.drawString(64, 28, "Wi-Fi Connected to");
-  display.drawString(64, 38, String(ssid));
+    display.clear();
+    display.setFont(ArialMT_Plain_10);
+    display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+    display.drawString(64, 28, "Wi-Fi Connected");
+    display.drawString(64, 38, "Sucessfully");
+  } else {
+    display.clear();
+    display.setFont(ArialMT_Plain_10);
+    display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+    display.drawString(64, 28, "Failed to connect");
+    display.drawString(64, 38, "to Wi-Fi");
+  }
+
   display.display();
-  delay(3000);
+  delay(2000);
 }
