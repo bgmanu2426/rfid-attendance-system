@@ -63,7 +63,6 @@ void loop() {
 
   timeClient.update();
   formattedTime = timeClient.getFormattedTime();
-  // Serial.println(formattedTime);
 
   display.clear();
   display.setFont(Rancho_Regular_20);
@@ -100,7 +99,6 @@ void SendCardID(String Card_uid) {
   display.drawString(64, 25, "Verifying the ID");
   display.display();
 
-  // Serial.println("Sending the Card ID :");
   if (WiFi.isConnected()) {
     HTTPClient http;                       //Declare object of class HTTPClient
     getData = String("?uid=") + Card_uid;  // Add the Card ID to the GET array in order to send it //GET Data
@@ -109,8 +107,6 @@ void SendCardID(String Card_uid) {
 
     int httpCode = http.GET();          //Send the request
     String payload = http.getString();  //Get the response payload
-    // Serial.println(Card_uid);
-    // Serial.println(payload);
     Serial.println(httpCode);
 
     if (httpCode == -1) {
@@ -182,10 +178,6 @@ void connectToWiFi() {
   }
 
   if (WiFi.status() == WL_CONNECTED) {
-    // Serial.println("");
-    // Serial.println("Connected to");
-    // Serial.println(ssid);
-
     display.clear();
     display.setFont(ArialMT_Plain_10);
     display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
