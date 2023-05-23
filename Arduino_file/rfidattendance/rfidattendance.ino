@@ -27,10 +27,9 @@
 #define SS_PIN 21
 #define RST_PIN 5
 #define Relay_Pin 15
+int relayTriggered;
 
 String formattedTime;
-int relayTriggered = false;
-int ServerResponse = false;
 
 MFRC522 mfrc522(SS_PIN, RST_PIN);  // Create MFRC522 instance.
 WiFiUDP ntpUDP;
@@ -57,9 +56,7 @@ void setup() {
 }
 
 void loop() {
-  if (ServerResponse == true) {
-    relayTriggered = false;  // Reset the relay teiggered flag to rescan another tag simultaneously
-  }
+  relayTriggered = false;
 
   if (!WiFi.isConnected()) {
     connectToWiFi();  //Retry to connect to Wi-Fi
@@ -91,14 +88,13 @@ void loop() {
   for (byte i = 0; i < mfrc522.uid.size; i++) {
     CardID += mfrc522.uid.uidByte[i];
   }
-
   CardID.replace(" ", "");  //Remove spaces from the CardUID Number
-  ServerResponse = SendCardID(CardID);
-  Serial.println(ServerResponse);
+  
+  SendCardID(CardID);
 }
 
 // Send CardUID to Website
-int SendCardID(String Card_uid) {
+void SendCardID(String Card_uid) {
   display.clear();
   display.setFont(ArialMT_Plain_10);
   display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
@@ -106,59 +102,58 @@ int SendCardID(String Card_uid) {
   display.display();
 
   // Serial.println("Sending the Card ID :");
-  HTTPClient http;                              //Declare object of class HTTPClient
-  String getData = String("?uid=") + Card_uid;  // Add the Card ID to the GET array in order to send it //GET Data
-  String Link = REQ_URL + getData;              //GET method
-  http.begin(Link);                             //initiate HTTP request   //Specify content-type header
-  delay(1000);                                  //delay added for network call
-  int httpCode = http.GET();                    //Send the request
-  String payload = http.getString();            //Get the response payload
-  // Serial.println(Card_uid);
-  // Serial.println(payload);
-  Serial.println(httpCode);
+  if (WiFi.isConnected()) {
+    HTTPClient http;                              //Declare object of class HTTPClient
+    String getData = String("?uid=") + Card_uid;  // Add the Card ID to the GET array in order to send it //GET Data
+    String Link = REQ_URL + getData;              //GET method
+    http.begin(Link);                             //initiate HTTP request   //Specify content-type header
 
-  if (httpCode == -1) {
-    display.clear();
-    display.setFont(ArialMT_Plain_10);
-    display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
-    display.drawString(64, 30, "Internal Server ERROR");
-    display.display();
-    delay(3000);
-    return false;
-  } else if (httpCode == 200) {
-    if (!relayTriggered) {
+    int httpCode = http.GET();          //Send the request
+    String payload = http.getString();  //Get the response payload
+    // Serial.println(Card_uid);
+    // Serial.println(payload);
+    Serial.println(httpCode);
+
+    if (httpCode == -1) {
+      display.clear();
+      display.setFont(ArialMT_Plain_10);
+      display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+      display.drawString(64, 30, "Internal Server ERROR");
+      display.display();
+      delay(3000);
+    } else if (httpCode == 200 || httpCode == 201) {
+      if (!relayTriggered) {
+        display.clear();
+        display.setFont(ArialMT_Plain_10);
+        display.setTextAlignment(TEXT_ALIGN_LEFT);
+        display.drawStringMaxWidth(10, 10, 128, payload);
+        display.display();
+        trigger_Relay();
+        relayTriggered = true;
+      }
+    } else if (httpCode == 404) {
       display.clear();
       display.setFont(ArialMT_Plain_10);
       display.setTextAlignment(TEXT_ALIGN_LEFT);
       display.drawStringMaxWidth(10, 10, 128, payload);
       display.display();
-      trigger_Relay();
-      relayTriggered = true;
-      return true;
+      delay(3000);
+    } else {
+      display.clear();
+      display.setFont(ArialMT_Plain_10);
+      display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
+      display.drawString(64, 30, "HTTP ERROR :" + String(httpCode));
+      display.display();
+      delay(3000);
     }
-  } else if (httpCode == 404) {
-    display.clear();
-    display.setFont(ArialMT_Plain_10);
-    display.setTextAlignment(TEXT_ALIGN_LEFT);
-    display.drawStringMaxWidth(10, 10, 128, payload);
-    display.display();
-    delay(3000);
-    return false;
-  } else {
-    display.clear();
-    display.setFont(ArialMT_Plain_10);
-    display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
-    display.drawString(64, 30, "HTTP ERROR :" + String(httpCode));
-    display.display();
-    delay(3000);
-    return false;
+    ESP.restart();
+    http.end();  // Close connection
   }
-  http.end();  // Close connection
 }
 
 void trigger_Relay() {
   digitalWrite(Relay_Pin, HIGH);
-  delay(5000);
+  delay(7000);
   digitalWrite(Relay_Pin, LOW);
 }
 
@@ -166,13 +161,13 @@ void connectToWiFi() {
   display.clear();
   display.setFont(ArialMT_Plain_10);
   display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
-  display.drawString(64, 34, "Connecting to Wi-Fi");
+  display.drawString(64, 34, "Initializing");  //  adds to buffer
   display.display();
 
   WiFi.mode(WIFI_OFF);  // Disconnect from any previous connections
   delay(500);
   WiFi.mode(WIFI_STA);
-  Serial.print("Connecting to Wi-Fi");
+  // Serial.print("Connecting to Wi-Fi");
   WiFi.begin(ssid, password);
 
   unsigned long startTime = millis();                                      // Start time for timeout
@@ -182,15 +177,9 @@ void connectToWiFi() {
   }
 
   if (WiFi.status() == WL_CONNECTED) {
-    // Serial.println("");
-    // Serial.println("Connected to");
-    // Serial.println(ssid);
-
-    display.clear();
-    display.setFont(ArialMT_Plain_10);
-    display.setTextAlignment(TEXT_ALIGN_CENTER_BOTH);
-    display.drawString(64, 28, "Wi-Fi Connected");
-    display.drawString(64, 38, "Sucessfully");
+    Serial.println("");
+    Serial.println("Connected to");
+    Serial.println(ssid);
   } else {
     display.clear();
     display.setFont(ArialMT_Plain_10);
