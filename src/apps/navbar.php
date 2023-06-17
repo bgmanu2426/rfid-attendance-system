@@ -14,7 +14,7 @@ if (isset($_SESSION['admin']) && $_SESSION['admin'] == true) {
 echo '<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="./index.php">
-            <img src="./images/logo.png" style="width: 42px; height: 40px;" alt="Logo" width="30" height="24">
+            <img src="../public/images/logo.png" style="width: 42px; height: 40px;" alt="Logo" width="30" height="24">
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

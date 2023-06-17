@@ -68,14 +68,14 @@ if (isset($_POST['user_name'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="shortcut icon" href="../public/images/favicon.ico" type="image/x-icon">
     <!-- Bootstrap CSS  -->
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!-- Bootstrap JS -->
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery JS -->
-    <script src="./js/jquery-3.5.1.js"></script>
+    <script src="../static/js/jquery-3.5.1.js"></script>
     <title>Add User</title>
 </head>
 

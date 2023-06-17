@@ -18,13 +18,13 @@ require "./db/db_connect.php";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- jQuery CSS  -->
-    <link rel="stylesheet" href="./css/jquery-ui.css">
-    <link rel="stylesheet" href="./css/dataTables.jqueryui.min.css">
-    <link rel="stylesheet" href="./css/buttons.jqueryui.min.css">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="shortcut icon" href="./images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../static/css/jquery-ui.css">
+    <link rel="stylesheet" href="../static/css/dataTables.jqueryui.min.css">
+    <link rel="stylesheet" href="../static/css/buttons.jqueryui.min.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="shortcut icon" href="../public/images/favicon.ico" type="image/x-icon">
     <!-- Bootstrap CSS  -->
-    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <style>
         th.sorting.ui-state-default,
         table.dataTable th,
@@ -34,22 +34,22 @@ require "./db/db_connect.php";
     </style>
 
     <!-- jQuery JS -->
-    <script src="./js/jquery-3.5.1.js"></script>
+    <script src="../static/js/jquery-3.5.1.js"></script>
     <!-- jQuery datatables JS  -->
-    <script src="./js/jquery.dataTables.min.js"></script>
+    <script src="../static/js/jquery.dataTables.min.js"></script>
     <!-- jQuery UI JS  -->
-    <script src="./js/dataTables.jqueryui.min.js"></script>
+    <script src="../static/js/dataTables.jqueryui.min.js"></script>
     <!-- jQuery buttons JS  -->
-    <script src="./js/dataTables.buttons.min.js"></script>
-    <script src="./js/buttons.jqueryui.min.js"></script>
-    <script src="./js/jszip.min.js"></script>
-    <script src="./js/pdfmake.min.js"></script>
-    <script src="./js/vfs_fonts.js"></script>
-    <script src="./js/buttons.html5.min.js"></script>
-    <script src="./js/buttons.print.min.js"></script>
-    <script src="./js/buttons.colVis.min.js"></script>
+    <script src="../static/js/dataTables.buttons.min.js"></script>
+    <script src="../static/js/buttons.jqueryui.min.js"></script>
+    <script src="../static/js/jszip.min.js"></script>
+    <script src="../static/js/pdfmake.min.js"></script>
+    <script src="../static/js/vfs_fonts.js"></script>
+    <script src="../static/js/buttons.html5.min.js"></script>
+    <script src="../static/js/buttons.print.min.js"></script>
+    <script src="../static/js/buttons.colVis.min.js"></script>
     <!-- Bootstrap JS -->
-    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Script for the jQuerys plug-in DataTables
         $(document).ready(function() {
@@ -107,7 +107,7 @@ require "./db/db_connect.php";
                 while ($fetch_rows = mysqli_fetch_assoc($result)) {
                     echo '
                         <tr>
-                        <td>' . $fetch_rows['slno'] . '</td>
+                        <td>' . $num . '</td>
                         <td>' . $fetch_rows['user_name'] . '</td>
                         <td>' . $fetch_rows['user_reg_no'] . '</td>
                         <td>' . $fetch_rows['user_id'] . '</td>
