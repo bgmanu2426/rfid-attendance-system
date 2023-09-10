@@ -54,14 +54,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="shortcut icon" href="../public/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./static/css/style.css">
+    <link rel="shortcut icon" href="./public/images/favicon.ico" type="image/x-icon">
     <!-- Bootstrap CSS  -->
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <!-- Bootstrap JS -->
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jQuery JS -->
-    <script src="../static/js/jquery-3.5.1.js"></script>
+    <script src="./static/js/jquery-3.5.1.js"></script>
     <title>Login</title>
 </head>
 

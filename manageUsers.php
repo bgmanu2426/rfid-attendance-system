@@ -57,13 +57,13 @@ if (isset($_GET['delete'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- jQuery CSS  -->
-    <link rel="stylesheet" href="../static/css/jui">
-    <link rel="stylesheet" href="../static/css/dataTables.jqueryui.min.css">
-    <link rel="stylesheet" href="../static/css/buttons.jqueryui.min.css">
-    <link rel="stylesheet" href="../static/css/style.css">
-    <link rel="shortcut icon" href="../public/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="./static/css/jui">
+    <link rel="stylesheet" href="./static/css/dataTables.jqueryui.min.css">
+    <link rel="stylesheet" href="./static/css/buttons.jqueryui.min.css">
+    <link rel="stylesheet" href="./static/css/style.css">
+    <link rel="shortcut icon" href="./public/images/favicon.ico" type="image/x-icon">
     <!-- Bootstrap CSS  -->
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./node_modules/bootstrap/dist/css/bootstrap.min.css">
     <style>
         th.sorting.ui-state-default,
         table.dataTable th,
@@ -79,22 +79,22 @@ if (isset($_GET['delete'])) {
     </style>
 
     <!-- jQuery JS -->
-    <script src="../static/js/jquery-3.5.1.js"></script>
+    <script src="./static/js/jquery-3.5.1.js"></script>
     <!-- jQuery datatables JS  -->
-    <script src="../static/js/jquery.dataTables.min.js"></script>
+    <script src="./static/js/jquery.dataTables.min.js"></script>
     <!-- jQuery UI JS  -->
-    <script src="../static/js/dataTables.jqueryui.min.js"></script>
+    <script src="./static/js/dataTables.jqueryui.min.js"></script>
     <!-- jQuery buttons JS  -->
-    <script src="../static/js/dataTables.buttons.min.js"></script>
-    <script src="../static/js/buttons.jqueryui.min.js"></script>
-    <script src="../static/js/jszip.min.js"></script>
-    <script src="../static/js/pdfmake.min.js"></script>
-    <script src="../static/js/vfs_fonts.js"></script>
-    <script src="../static/js/buttons.html5.min.js"></script>
-    <script src="../static/js/buttons.print.min.js"></script>
-    <script src="../static/js/buttons.colVis.min.js"></script>
+    <script src="./static/js/dataTables.buttons.min.js"></script>
+    <script src="./static/js/buttons.jqueryui.min.js"></script>
+    <script src="./static/js/jszip.min.js"></script>
+    <script src="./static/js/pdfmake.min.js"></script>
+    <script src="./static/js/vfs_fonts.js"></script>
+    <script src="./static/js/buttons.html5.min.js"></script>
+    <script src="./static/js/buttons.print.min.js"></script>
+    <script src="./static/js/buttons.colVis.min.js"></script>
     <!-- Bootstrap JS -->
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     <script>
         $(document).ready(function() {
@@ -262,7 +262,7 @@ if (isset($_GET['delete'])) {
 
     // To remove the GET paarmeter from the header when the request is completed
     if (typeof window.history.pushState == 'function') {
-        window.history.pushState({}, "Hide", "http://localhost/rfidattendance/src/manageUsers.php");
+        window.history.pushState({}, "Hide", "http://localhost/Smart-attendance-system/manageUsers.php");
     }
 
     // To add active class to the navbar
