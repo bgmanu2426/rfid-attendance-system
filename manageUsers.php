@@ -262,7 +262,7 @@ if (isset($_GET['delete'])) {
 
     // To remove the GET paarmeter from the header when the request is completed
     if (typeof window.history.pushState == 'function') {
-        window.history.pushState({}, "Hide", "http://localhost/Smart-attendance-system/manageUsers.php");
+        window.history.pushState({}, "Hide", "http://localhost/rfid-attendance-system/manageUsers.php");
     }
 
     // To add active class to the navbar
