@@ -75,15 +75,15 @@ An IoT-enabled smart attendance system built using RFID technology, the ESP32 mi
 
 ### 1. OLED Display
 Displays user details and system status:
-![OLED Display]()
+![OLED Display](/public/images/oled.png)
 
 ### 2. Solenoid Lock
 Shows the solenoid lock granting access:
-![Solenoid Lock](screenshots/solenoid-lock.png)
+![Solenoid Lock](/public/images/solenoid.png)
 
 ### 3. Web Dashboard
 Interactive web interface with DataTables:
-![Web Dashboard](screenshots/web-dashboard.png)
+![Web Dashboard]()
 
 ---
 
