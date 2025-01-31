@@ -71,22 +71,6 @@ An IoT-enabled smart attendance system built using RFID technology, the ESP32 mi
 
 ---
 
-## Screenshots
-
-### 1. OLED Display
-Displays user details and system status:
-![OLED Display](/public/images/oled.png)
-
-### 2. Solenoid Lock
-Shows the solenoid lock granting access:
-![Solenoid Lock](/public/images/solenoid.png)
-
-### 3. Web Dashboard
-Interactive web interface with DataTables:
-![Web Dashboard]()
-
----
-
 ## Future Enhancements
 - Add email/SMS notifications for attendance and alerts.
 - Integrate biometric authentication for added security.
@@ -97,6 +81,11 @@ Interactive web interface with DataTables:
 ## Acknowledgments
 - Thanks to the open-source community for libraries and tools.
 - Special mention to tutorials and guides that inspired this project.
+
+---
+
+## References
+- The detailed report of the project is found avilable [here](/public/RFID%20Cloud%20Based%20Smart%20Attendace%20System%20-%20Project%20Report.pdf)
 
 ---
 
